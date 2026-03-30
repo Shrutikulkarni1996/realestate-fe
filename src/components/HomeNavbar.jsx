@@ -1,10 +1,25 @@
 import "./HomeNavbar.css";
-function HomeNavbar({ setPage }) {
+import { useNavigate } from "react-router-dom";
+
+function HomeNavbar() {
+  const navigate = useNavigate();
+
   return (
     <div className="navbar">
-      <h3>MyProperty</h3>
+      <h3 style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+        MyProperty
+      </h3>
 
-      <button onClick={() => setPage("login")}>Login</button>
+      <div>
+        <button onClick={() => navigate("/login")}>Login</button>
+
+        <button
+          onClick={() => navigate("/register")}
+          style={{ marginLeft: "10px" }}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 }

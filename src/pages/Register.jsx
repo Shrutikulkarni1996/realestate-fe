@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/login.css";
 
-function Register({ setPage }) {
+function Register() {
+  const navigate = useNavigate();
+
   // ✅ STATE
   const [formData, setFormData] = useState({
     name: "",
@@ -10,6 +13,8 @@ function Register({ setPage }) {
     confirmPassword: "",
     role: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   // ✅ HANDLE CHANGE
   const handleChange = (e) => {
@@ -21,19 +26,30 @@ function Register({ setPage }) {
 
   // ✅ REGISTER FUNCTION
   const handleRegister = async () => {
-    // 🔴 PASSWORD MATCH CHECK
-    if (formData.password !== formData.confirmPassword) {
-      alert("Password and Confirm Password do not match ❌");
+    // 🔴 VALIDATIONS
+    if (!formData.name || !formData.email || !formData.password) {
+      alert("Please fill all fields ❌");
       return;
     }
 
-    // 🔴 ROLE CHECK
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters ❌");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match ❌");
+      return;
+    }
+
     if (!formData.role) {
       alert("Please select a role ❌");
       return;
     }
 
     try {
+      setLoading(true);
+
       const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: {
@@ -48,81 +64,104 @@ function Register({ setPage }) {
       });
 
       const data = await response.json();
-      console.log(data);
 
-      alert(data.message || "Registered successfully ✅");
+      if (response.ok) {
+        alert(data.message || "Registered successfully ✅");
 
-      // 👉 Redirect to login after success
-      setPage("login");
+        // ✅ CLEAR FORM
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          role: "",
+        });
+
+        // ✅ REDIRECT
+        navigate("/login");
+      } else {
+        alert(data.message || "Registration failed ❌");
+      }
     } catch (error) {
       console.error(error);
-      alert("Registration failed ❌");
+      alert("Server error ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container">
-      <div className="box">
-        <button className="close-btn" onClick={() => setPage("home")}>
+      <div className="box register-box">
+        <button className="close-btn" onClick={() => navigate("/")}>
           ×
         </button>
 
         <h3 className="title">Sign Up</h3>
 
-        {/* ✅ NAME */}
+        {/* NAME */}
         <input
           type="text"
           name="name"
           placeholder="Enter your name"
           className="input"
+          value={formData.name}
           onChange={handleChange}
         />
 
-        {/* ✅ EMAIL */}
+        {/* EMAIL */}
         <input
           type="email"
           name="email"
           placeholder="Enter your email"
           className="input"
+          value={formData.email}
           onChange={handleChange}
         />
 
-        {/* ✅ PASSWORD */}
+        {/* PASSWORD */}
         <input
           type="password"
           name="password"
           placeholder="Enter password"
           className="input"
+          value={formData.password}
           onChange={handleChange}
         />
 
-        {/* ✅ CONFIRM PASSWORD */}
+        {/* CONFIRM PASSWORD */}
         <input
           type="password"
           name="confirmPassword"
           placeholder="Confirm password"
           className="input"
+          value={formData.confirmPassword}
           onChange={handleChange}
         />
 
-        {/* ✅ ROLE DROPDOWN (NO ADMIN) */}
-        <select name="role" className="input" onChange={handleChange}>
+        {/* ROLE */}
+        <select
+          name="role"
+          className="input"
+          value={formData.role}
+          onChange={handleChange}
+        >
           <option value="">Select Role</option>
           <option value="BUYER">Buyer</option>
           <option value="SELLER">Seller</option>
           <option value="AGENT">Agent</option>
         </select>
 
-        {/* ✅ BUTTON */}
-        <button className="button" onClick={handleRegister}>
-          Register
+        {/* BUTTON */}
+        <button className="button" onClick={handleRegister} disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p className="footer">
-          Already have an account?{" "}
+          Already have an account?
           <span
             className="link"
-            onClick={() => setPage("login")}
+            onClick={() => navigate("/login")}
             style={{ cursor: "pointer", marginLeft: "5px" }}
           >
             Login

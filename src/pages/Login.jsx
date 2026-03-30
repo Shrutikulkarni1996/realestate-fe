@@ -1,69 +1,74 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../services/API";
 import "../styles/login.css";
 
-function Login({ setPage }) {
+function Login() {
   const navigate = useNavigate();
 
-  // ✅ ADD STATE
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // ✅ ADD FUNCTION
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please enter email and password ❌");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST", // IMPORTANT
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+      const response = await API.post("/auth/login", {
+        email,
+        password,
       });
 
-      const data = await response.json();
-      console.log(data);
+      const data = response.data;
 
-      alert(data.message || "Login successful");
+      alert(data.message || "Login successful ✅");
 
-      // optional navigation
-      // navigate("/dashboard");
+      // ✅ Save token
+      localStorage.setItem("token", data.token);
+
+      // ✅ Save user
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // 🚀 GO TO DASHBOARD
+      navigate("/dashboard");
     } catch (error) {
-      console.error(error);
-      alert("Login failed");
+      alert(error.response?.data?.message || "Login failed ❌");
     }
   };
 
   return (
     <div className="container">
-      <div className="box">
-        <button className="close-btn" onClick={() => setPage("home")}>
+      <div className="box login-box">
+        <button className="close-btn" onClick={() => navigate("/")}>
           ×
         </button>
-        <br />
-        <h3 className="title">LogIn</h3>
-        <br />
+        <h3 className="title">Login</h3>
 
-        {/* ✅ UPDATED INPUT */}
         <input
           type="email"
           placeholder="Enter your email"
           className="input"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* ✅ UPDATED INPUT */}
         <input
           type="password"
           placeholder="Enter your password"
           className="input"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <p className="forgot">
-          <span className="link">Forgot Password?</span>
+          <span
+            className="link"
+            onClick={() => navigate("/forgot-password")}
+            style={{ cursor: "pointer" }}
+          >
+            Forgot Password?
+          </span>
         </p>
 
         {/* ✅ UPDATED BUTTON */}
@@ -75,7 +80,7 @@ function Login({ setPage }) {
           Don’t have an account?
           <span
             className="link"
-            onClick={() => setPage("register")}
+            onClick={() => navigate("/register")}
             style={{ cursor: "pointer", marginLeft: "8px" }}
           >
             Sign Up
