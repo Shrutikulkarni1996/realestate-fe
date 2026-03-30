@@ -1,4 +1,4 @@
-import { useState } from "react";
+/*import { useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,6 +13,13 @@ function App() {
       {page === "register" && <Register setPage={setPage} />}
     </>
   );
+}
+
+export default App;*/
+import AppRoutes from "./routes/AppRoutes";
+
+function App() {
+  return <AppRoutes />;
 }
 
 export default App;
