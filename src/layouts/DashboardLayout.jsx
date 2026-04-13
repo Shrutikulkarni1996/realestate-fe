@@ -1,8 +1,11 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 function DashboardLayout() {
   const navigate = useNavigate();
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
+  const location = useLocation();
+  const isAddPropertyPage = location.pathname.includes("add-property");
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
@@ -18,14 +21,31 @@ function DashboardLayout() {
         >
           MyProperty
         </h3>
-
-        <button onClick={handleLogout} style={styles.btn}>
-          Logout
-        </button>
+        <div style={styles.right}>
+          {(role === "SELLER" || role === "AGENT") && (
+            <button
+              style={styles.addBtn}
+              onClick={() => navigate("/dashboard/add-property?view=form")}
+            >
+              + Add Property
+            </button>
+          )}
+          {isAddPropertyPage && (
+            <button
+              style={styles.Btn}
+              onClick={() => navigate("/dashboard/add-property?view=list")}
+            >
+              My Properties
+            </button>
+          )}
+          <button onClick={handleLogout} style={styles.Btn}>
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* 🔷 PAGE CONTENT */}
-      <div style={{ marginTop: "60px", padding: "20px" }}>
+      <div style={{ marginTop: "60px" }}>
         <Outlet />
       </div>
     </div>
@@ -46,8 +66,20 @@ const styles = {
     padding: "0 20px",
     zIndex: 1000,
   },
-  btn: {
-    background: "red",
+  right: {
+    display: "flex",
+    gap: "10px",
+  },
+  addBtn: {
+    background: "#fc060e",
+    color: "white",
+    border: "none",
+    padding: "8px 15px",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  Btn: {
+    background: "#fc060e",
     color: "white",
     border: "none",
     padding: "8px 15px",

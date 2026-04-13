@@ -1,117 +1,27 @@
-/*.dashboard-home {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-.dashboard-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-/* HERO 
-.hero {
-  text-align: center;
-  padding: 40px;
-  background: #f5f5f5;
-  border-radius: 10px;
-}
-
-.hero h1 {
-  font-size: 32px;
-}
-
-.hero-buttons {
-  margin-top: 20px;
-}
-
-.primary-btn {
-  background: #ff5a5f;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.secondary-btn {
-  background: white;
-  border: 1px solid #333;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-/* CATEGORY 
-.categories {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.category-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 15px;
-}
-
-.card {
-  padding: 20px;
-  background: #eee;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* WHY US 
-.why-us {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.features {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.feature {
-  width: 30%;
-}
-
-/* HOW IT WORKS 
-.how-it-works {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.steps {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.step {
-  width: 30%;
-}
-*/
-
 .dashboard {
   font-family: Arial, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* 🔷 HERO */
-.hero-section {
+.hero {
+  width: 100%;
   text-align: center;
-  padding: 60px 20px;
-  background: #f6f7fb;
+  padding: 80px 20px;
+  background: rgb(247, 247, 247);
+  color: rgb(13, 13, 13);
 }
 
-.hero-section h1 {
-  font-size: 34px;
+.hero h1 {
+  font-size: 36px;
   margin-bottom: 10px;
 }
 
-.hero-section p {
-  color: #555;
-  margin-bottom: 25px;
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
 }
 
 /* 🔷 TABS */
@@ -122,109 +32,140 @@
   margin-bottom: 20px;
 }
 
+/* Tab text */
 .tabs span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #585757;
   cursor: pointer;
-  font-weight: 500;
-  padding-bottom: 5px;
+  position: relative;
+  padding: 5px 0;
+  transition: color 0.3s;
 }
 
-.tabs .active {
-  color: #ff5a5f;
-  border-bottom: 2px solid #ff5a5f;
+/* Hover effect */
+.tabs span:hover {
+  color: #f20e15;
 }
 
+/* Underline (hidden initially) */
+.tabs span::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #f20e15;
+  left: 0;
+  bottom: -3px;
+  transition: width 0.1s;
+}
+
+/* Show underline on hover */
+.tabs span:hover::after {
+  width: 100%;
+}
+
+/* Active tab */
+.tabs span.active {
+  color: #f20e15;
+}
+
+/* Keep underline for active tab */
+.tabs span.active::after {
+  width: 100%;
+}
 /* 🔷 SEARCH */
 .search-box {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 10px;
 }
 
 .search-box select {
-  padding: 12px;
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
 }
 
 .search-box button {
-  padding: 12px 20px;
-  background: #ff5a5f;
-  color: white;
+  padding: 10px 20px;
+  background: #3f65fa;
   border: none;
-  border-radius: 6px;
+  color: white;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .search-box button:disabled {
-  background: #4a90e2;
+  background: rgb(89, 152, 252);
   cursor: pointer;
 }
 
-/* 🔷 ACTION SECTION */
-.action-section {
+/* 🔷 INFO SECTION */
+.info-section {
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  justify-content: space-between;
+  padding: 50px 60px;
+  gap: 20px;
+  background: white;
+}
+
+.info-card {
+  flex: 1;
+  text-align: center;
+  padding: 25px;
+  border-radius: 10px;
+  background: rgb(247, 247, 247);
+  transition: 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔷 MOTIVATION */
+.motivation {
+  text-align: center;
   padding: 50px 20px;
 }
 
-.action-card {
-  width: 350px;
-  padding: 25px;
-  background: rgb(249, 248, 248);
-  border-radius: 10px;
-  text-align: center;
-  cursor: pointer;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.action-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.action-card h2 {
-  margin-bottom: 10px;
-}
-
-.action-card p {
-  color: #555;
+.motivation h2 {
   margin-bottom: 15px;
-}
-
-.action-card button {
-  padding: 10px 15px;
-  border: none;
-  background: #4a90e2;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
 /* 🔷 FOOTER */
 .footer {
   background: #222;
   color: white;
+  padding: 30px 20px;
   text-align: center;
-  padding: 20px;
 }
 
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .footer-links span {
+  margin: 0 10px;
   cursor: pointer;
-  font-size: 14px;
 }
 
 .footer-links span:hover {
   text-decoration: underline;
+}
+
+.footer-social {
+  margin-top: 10px;
+}
+
+.footer-social a {
+  margin: 0 10px;
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: white;
 }

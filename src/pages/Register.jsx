@@ -12,9 +12,11 @@ function Register() {
     password: "",
     confirmPassword: "",
     role: "",
+    phone: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // ✅ HANDLE CHANGE
   const handleChange = (e) => {
@@ -60,6 +62,7 @@ function Register() {
           email: formData.email,
           password: formData.password,
           role: formData.role,
+          phone: formData.phone,
         }),
       });
 
@@ -75,6 +78,7 @@ function Register() {
           password: "",
           confirmPassword: "",
           role: "",
+          phone: "",
         });
 
         // ✅ REDIRECT
@@ -121,7 +125,7 @@ function Register() {
 
         {/* PASSWORD */}
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Enter password"
           className="input"
@@ -131,13 +135,22 @@ function Register() {
 
         {/* CONFIRM PASSWORD */}
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm password"
           className="input"
           value={formData.confirmPassword}
           onChange={handleChange}
         />
+        <div className="show-pass">
+          <label>
+            <input
+              type="checkbox"
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
+          </label>
+        </div>
 
         {/* ROLE */}
         <select
@@ -151,13 +164,21 @@ function Register() {
           <option value="SELLER">Seller</option>
           <option value="AGENT">Agent</option>
         </select>
+        <input
+          type="text"
+          name="phone"
+          placeholder="Enter phone number"
+          className="input"
+          value={formData.phone}
+          onChange={handleChange}
+        />
 
         {/* BUTTON */}
         <button className="button" onClick={handleRegister} disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
 
-        <p className="footer">
+        <p className="register-footer">
           Already have an account?
           <span
             className="link"

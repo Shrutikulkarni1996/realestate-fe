@@ -8,6 +8,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -29,12 +30,24 @@ function Login() {
       localStorage.setItem("token", data.token);
 
       // ✅ Save user
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: data.userId,
+          email: data.email,
+          role: data.role,
+        }),
+      );
 
       // 🚀 GO TO DASHBOARD
-      navigate("/dashboard");
+
+      if (data.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
-      alert(error.response?.data?.message || "Login failed ❌");
+      alert(error.response?.data?.message || "Invalid email or password ❌");
     }
   };
 
@@ -55,28 +68,32 @@ function Login() {
         />
 
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Enter your password"
           className="input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <p className="forgot">
-          <span
-            className="link"
-            onClick={() => navigate("/forgot-password")}
-            style={{ cursor: "pointer" }}
-          >
+        <div className="login-options">
+          <label>
+            <input
+              type="checkbox"
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
+          </label>
+
+          <span className="link" onClick={() => navigate("/forgot-password")}>
             Forgot Password?
           </span>
-        </p>
+        </div>
 
         {/* ✅ UPDATED BUTTON */}
         <button className="button" onClick={handleLogin}>
           Login
         </button>
 
-        <p className="footer1">
+        <p className="login-footer">
           Don’t have an account?
           <span
             className="link"

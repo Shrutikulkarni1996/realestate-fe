@@ -4,16 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleReset = async () => {
     if (!email || !newPassword) {
       alert("Please fill all fields ❌");
       return;
     }
-
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match ❌");
+      return;
+    }
     try {
       const response = await API.post("/auth/forgot-password", {
         email,
@@ -28,7 +32,6 @@ function ForgotPassword() {
       alert(error.response?.data?.message || "Failed ❌");
     }
   };
-
   return (
     <div className="container">
       <div className="box forgot-box">
@@ -47,12 +50,26 @@ function ForgotPassword() {
         />
 
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Enter new password"
           className="input"
           onChange={(e) => setNewPassword(e.target.value)}
         />
-
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Confirm password"
+          className="input"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <div className="show-pass">
+          <label>
+            <input
+              type="checkbox"
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
+          </label>
+        </div>
         <button className="button" onClick={handleReset}>
           Reset Password
         </button>

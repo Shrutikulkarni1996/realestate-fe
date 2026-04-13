@@ -158,28 +158,58 @@ body {
 }
 
 /* 🔷 FOOTER */
-.footer1 {
+.login-footer {
   text-align: center;
   margin-top: 15px;
   font-size: 14px;
   color: #555;
+  background: transparent;
 }
 
-.footer {
+.register-footer {
   text-align: left;
   margin-top: 15px;
   font-size: 14px;
   color: #555;
+  background: transparent;
 }
 
 /* 🔷 LINK */
 .link {
-  color: #4a90e2;
+  color: #035eba;
   cursor: pointer;
   font-size: 14px;
+  background: transparent;
 }
 
 .link:hover {
   color: #035eba;
   text-decoration: underline;
+}
+.login-options {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.show-pass {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* LEFT SIDE */
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.show-pass label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
